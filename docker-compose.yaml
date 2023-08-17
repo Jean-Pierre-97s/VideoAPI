@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: videoHub
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      POSTGRES_USER: billiejins
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: videoHub
+      TZ: America/Sao_Paulo
+    volumes:
+      - pgdata:/data/postgres
+    command: -p 3306
+
+volumes:
+  pgdata:
+    driver: local
