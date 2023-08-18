@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, ParseFilePipe, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, ParseFilePipe, UseInterceptors, Res } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VideoFileValidator } from './video-file-validator';
+import { createReadStream } from 'fs';
+import { join } from 'path';
+import { Response } from 'express';
 
 @Controller('videos')
 export class VideosController {
@@ -45,6 +48,12 @@ export class VideosController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.videosService.findOne(+id);
+  }
+
+  @Get('file/:file')
+  file(@Param('file') file: string, @Res() res: Response) {
+    const fileStream = createReadStream(join(process.cwd(), 'uploads', file));
+    fileStream.pipe(res);
   }
 
   @Patch(':id')
