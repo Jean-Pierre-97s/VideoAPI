@@ -9,14 +9,14 @@ export class VideosService {
 
   constructor(private prismaService: PrismaService, private categoryService: CategoriesService) { }
 
-  async create(createVideoDto: CreateVideoDto) {
+  async create(createVideoDto: CreateVideoDto & { file: Express.Multer.File }) {
     await this.categoryService.findOne(createVideoDto.category_id)
     return this.prismaService.video.create({
       data: {
         title: createVideoDto.title,
         description: createVideoDto.description,
         category_id: createVideoDto.category_id,
-        file_path: 'fake/video.mp4'
+        file_path: createVideoDto.file.path
       }
     })
   }

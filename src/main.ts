@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new PrismaExceptionFilter());
 
-  app.useGlobalPipes(new ValidationPipe({ errorHttpStatusCode: 422 }));
+  app.useGlobalPipes(new ValidationPipe({ errorHttpStatusCode: 422, transform: true }));
 
   await app.listen(3000);
 }
