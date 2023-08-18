@@ -10,7 +10,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
         if (exception.code === 'P2025') {
             return response.status(404).json({
                 statusCode: 404,
-                message: "No category Found"
+                message: "Id not Found"
             })
         }
 
